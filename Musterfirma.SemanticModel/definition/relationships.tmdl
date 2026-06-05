@@ -1,0 +1,26 @@
+relationship AutoDetected_b691d4cd-2d4f-4f83-9eee-0834db5f1404
+	fromColumn: Fakten_Umsatz.Produkt_ID
+	toColumn: Dim_Produkte.Produkt_ID
+
+relationship AutoDetected_7f3ea168-ff53-49e2-8da1-de13ec6667df
+	fromColumn: Fakten_Umsatz.Kunden_ID
+	toColumn: Dim_Kunden.Kunden_ID
+
+relationship AutoDetected_2249ea12-55c5-44c9-9090-cd16706543eb
+	fromColumn: Fakten_Umsatz.Mitarbeiter_ID
+	toColumn: Dim_Mitarbeiter.Mitarbeiter_ID
+
+relationship 1718b575-2178-8c37-8124-89a5cf1bc518
+	fromColumn: Fakten_Umsatz.Datum
+	toColumn: Calender_Auto.Date
+
+relationship d966509b-359e-4a34-af2c-c268b0044fb0
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Calender_Auto.Date
+	toColumn: LocalDateTable_d3ea2288-bdc6-419a-8037-b4eaa40c6634.Date
+
+relationship 3efc68f1-9a6e-aea1-034f-e3210c7e347e
+	crossFilteringBehavior: bothDirections
+	fromColumn: Calender_Auto.Jahr
+	toColumn: 'Revenue Target'.Year
+

@@ -1,0 +1,61 @@
+table Dim_Produkte
+	lineageTag: 2c983c71-2c7e-4173-ad06-a105658c30af
+
+	column Produkt_ID
+		dataType: string
+		lineageTag: 0e28835a-2eff-4cb8-a4a0-60bed00aaeeb
+		summarizeBy: none
+		sourceColumn: Produkt_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Produktname
+		dataType: string
+		lineageTag: 5625e385-e675-4f42-abe0-3f2704d783a6
+		summarizeBy: none
+		sourceColumn: Produktname
+
+		annotation SummarizationSetBy = Automatic
+
+	column Kategorie
+		dataType: string
+		lineageTag: 8f61e0a6-12d8-44dd-b047-7b7be9ec4ac6
+		summarizeBy: none
+		sourceColumn: Kategorie
+
+		annotation SummarizationSetBy = Automatic
+
+	column Listenpreis
+		dataType: decimal
+		formatString: 0
+		lineageTag: 038ce83b-6a52-401e-b4ca-c981b4115631
+		summarizeBy: none
+		sourceColumn: Listenpreis
+
+		annotation SummarizationSetBy = Automatic
+
+	column Standard_Einstandspreis
+		dataType: decimal
+		lineageTag: 2bc40b74-5fbd-4fba-a0ed-1852d787022c
+		summarizeBy: none
+		sourceColumn: Standard_Einstandspreis
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Dim_Produkte = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Anwender\Desktop\Power BI\Beispielprojekt\kmu_vertriebsdaten_star_schema.xlsx"), null, true),
+				    Dim_Produkte_Sheet = Source{[Item="Dim_Produkte",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Dim_Produkte_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Produkt_ID", type text}, {"Produktname", type text}, {"Kategorie", type text}, {"Listenpreis", Currency.Type}, {"Standard_Einstandspreis", Currency.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

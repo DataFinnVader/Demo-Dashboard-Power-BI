@@ -1,0 +1,60 @@
+table Dim_Kunden
+	lineageTag: 2432e83b-1998-45ea-80ec-76777c0f5e55
+
+	column Kunden_ID
+		dataType: string
+		lineageTag: a2fff2f9-5f52-4685-9c3d-b9345ce82980
+		summarizeBy: none
+		sourceColumn: Kunden_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Kundenname
+		dataType: string
+		lineageTag: ac4a18b2-a452-4d23-8f01-f32b5be2acfe
+		summarizeBy: none
+		sourceColumn: Kundenname
+
+		annotation SummarizationSetBy = Automatic
+
+	column Branche
+		dataType: string
+		lineageTag: 929018ac-85ab-443c-9918-5b56332f4d89
+		summarizeBy: none
+		sourceColumn: Branche
+
+		annotation SummarizationSetBy = Automatic
+
+	column Bundesland
+		dataType: string
+		lineageTag: 341f8d37-b38b-45a2-8248-bbf5d42eeee4
+		dataCategory: StateOrProvince
+		summarizeBy: none
+		sourceColumn: Bundesland
+
+		annotation SummarizationSetBy = Automatic
+
+	column Kundenklasse
+		dataType: string
+		lineageTag: 8a274c85-f56e-42be-9c3d-5f1cc051f95e
+		summarizeBy: none
+		sourceColumn: Kundenklasse
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_Kunden = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Anwender\Desktop\Power BI\Beispielprojekt\kmu_vertriebsdaten_star_schema.xlsx"), null, true),
+				    Dim_Kunden_Sheet = Source{[Item="Dim_Kunden",Kind="Sheet"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Dim_Kunden_Sheet,{{"Column1", type text}, {"Column2", type text}, {"Column3", type text}, {"Column4", type text}, {"Column5", type text}}),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Changed Type", [PromoteAllScalars=true]),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Promoted Headers",{{"Kunden_ID", type text}, {"Kundenname", type text}, {"Branche", type text}, {"Bundesland", type text}, {"Kundenklasse", type text}})
+				in
+				    #"Changed Type1"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

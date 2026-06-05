@@ -1,0 +1,90 @@
+table Fakten_Umsatz
+	lineageTag: 41a90a3f-2dc1-4af6-b998-8672e2063d09
+
+	column Transaktions_ID
+		dataType: string
+		lineageTag: 26215799-01b2-46f6-b035-04c87b28bd7e
+		summarizeBy: none
+		sourceColumn: Transaktions_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Datum
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 2d46a132-1645-4e52-ab11-09de31cc0d64
+		summarizeBy: none
+		sourceColumn: Datum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Kunden_ID
+		dataType: string
+		lineageTag: 08aad23f-ebd5-42e8-ae90-c3f07a76c0e8
+		summarizeBy: none
+		sourceColumn: Kunden_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Produkt_ID
+		dataType: string
+		lineageTag: 0e0ed72e-1a1e-4c36-9f38-1cae7a3106b9
+		summarizeBy: none
+		sourceColumn: Produkt_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mitarbeiter_ID
+		dataType: string
+		lineageTag: dd110c3c-c899-4248-80a7-d6c6e0163423
+		summarizeBy: none
+		sourceColumn: Mitarbeiter_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Menge
+		dataType: int64
+		formatString: 0
+		lineageTag: b03babed-2224-4f58-8440-592e702c2535
+		summarizeBy: sum
+		sourceColumn: Menge
+
+		annotation SummarizationSetBy = Automatic
+
+	column Umsatz_Brutto
+		dataType: decimal
+		lineageTag: 4cc0f8e7-16ba-4796-9945-9114c3a9e12a
+		summarizeBy: sum
+		sourceColumn: Umsatz_Brutto
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Gesamtkosten
+		dataType: decimal
+		lineageTag: fdfff0d0-460e-47d2-9892-4234156725a0
+		summarizeBy: sum
+		sourceColumn: Gesamtkosten
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Fakten_Umsatz = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Anwender\Desktop\Power BI\Beispielprojekt\kmu_vertriebsdaten_star_schema.xlsx"), null, true),
+				    Fakten_Umsatz_Sheet = Source{[Item="Fakten_Umsatz",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Fakten_Umsatz_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Transaktions_ID", type text}, {"Datum", type date}, {"Kunden_ID", type text}, {"Produkt_ID", type text}, {"Mitarbeiter_ID", type text}, {"Menge", Int64.Type}, {"Umsatz_Brutto", Currency.Type}, {"Gesamtkosten", Currency.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

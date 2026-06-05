@@ -1,0 +1,43 @@
+table Dim_Mitarbeiter
+	lineageTag: 9731eab8-e6e2-42fe-b0b3-fb54c2875899
+
+	column Mitarbeiter_ID
+		dataType: string
+		lineageTag: a35741f5-8977-4dac-a7dc-e5ee3ec2d85f
+		summarizeBy: none
+		sourceColumn: Mitarbeiter_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Name
+		dataType: string
+		lineageTag: 61452852-88ad-477a-9997-2c903638053f
+		summarizeBy: none
+		sourceColumn: Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: 4e29aa50-26af-48d9-9f9d-b1dd74355cef
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_Mitarbeiter = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Anwender\Desktop\Power BI\Beispielprojekt\kmu_vertriebsdaten_star_schema.xlsx"), null, true),
+				    Dim_Mitarbeiter_Sheet = Source{[Item="Dim_Mitarbeiter",Kind="Sheet"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Dim_Mitarbeiter_Sheet,{{"Column1", type text}, {"Column2", type text}, {"Column3", type text}}),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Changed Type", [PromoteAllScalars=true]),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Promoted Headers",{{"Mitarbeiter_ID", type text}, {"Name", type text}, {"Region", type text}})
+				in
+				    #"Changed Type1"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

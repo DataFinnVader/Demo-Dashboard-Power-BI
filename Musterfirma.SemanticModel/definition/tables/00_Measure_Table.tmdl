@@ -1,0 +1,107 @@
+table 00_Measure_Table
+	lineageTag: 1e65cdb7-c351-4af0-8690-8b28cd43a25d
+
+	measure Umsatz = SUM(Fakten_Umsatz[Umsatz_Brutto])
+		formatString: #,0.00\ "€";-#,0.00\ "€";#,0.00\ "€"
+		lineageTag: 4dabd99d-be94-4838-af7b-daa49d04329a
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	measure Kosten = SUM(Fakten_Umsatz[Gesamtkosten])
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 11a84127-fbc9-4b9f-b6ee-770734dad475
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure Marge_Absolut = [Umsatz] - [Kosten]
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 3a937ed6-d144-4371-a6c4-4eda200055b7
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure Marge_Prozentual = DIVIDE([Marge_Absolut], [Umsatz] ,0)
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 1e7360c0-847b-474c-9207-3607b7a91d89
+
+	measure Umsatz_LY_YTD = TOTALYTD([Umsatz], SAMEPERIODLASTYEAR(Calender_Auto[Date]))
+		formatString: #,0.00\ "€";-#,0.00\ "€";#,0.00\ "€"
+		lineageTag: ea6e5c57-1b99-4af5-bbda-0c87e26f9e7c
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	measure Ausgewaehlte_Jahre_Text = ```
+			
+			VAR AnzahlAusgewaehlt = COUNTROWS(VALUES(Calender_Auto[Jahr]))
+			VAR AnzahlGesamt = COUNTROWS(ALL(Calender_Auto[Jahr]))
+			RETURN
+			    IF(
+			        AnzahlAusgewaehlt = AnzahlGesamt,
+			        "Alle Jahre",
+			        CONCATENATEX(
+			            VALUES(Calender_Auto[Jahr]), 
+			            Calender_Auto[Jahr], 
+			            " | ", 
+			            Calender_Auto[Jahr], 
+			            ASC
+			        )
+			    )
+			```
+		lineageTag: 66ceadcd-ef4e-4b4b-bd86-f375c108e4bf
+
+	measure 'Revenue Target' =
+			
+			SUM('Revenue Target'[Revenue Target])
+		formatString: #,0.00\ "€";-#,0.00\ "€";#,0.00\ "€"
+		lineageTag: cd835a6f-4ec3-4f85-8d7f-24e235330b6c
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	measure Max_Target = 750000
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 0a359a50-c225-4244-b5af-ea00c02d1288
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Target Anzeige' = ```
+			
+			VAR ProzentWert = DIVIDE([Umsatz], [Revenue Target])
+			VAR UmsatzWert = [Umsatz]
+			RETURN
+			    FORMAT(ProzentWert, "0%") &
+			    " | " & 
+			    FORMAT(UmsatzWert, "#,##0 €")
+			```
+		lineageTag: 0207f69d-2abc-4c29-b118-9a1e1f7b8a3f
+
+	measure 'Gap Revenue Absoulut' = ([Umsatz_LY_YTD] - [Umsatz])*-1
+		formatString: #,0.###############\ "€";-#,0.###############\ "€";#,0.###############\ "€"
+		lineageTag: 70f62cfa-0811-465b-bc14-d139c69fc79d
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	measure 'Gap Revenue Percentage' = DIVIDE([Umsatz],[Umsatz_LY_YTD])*-1
+		formatString: #,0\ %;-#,0\ %;#,0\ %
+		lineageTag: 02160b78-cdbd-44e6-9ab9-5020faec8efb
+
+	measure This_Year = YEAR(TODAY())
+		formatString: 0
+		lineageTag: d33c8914-6e7d-4966-9800-bcbe8aecb85f
+
+	column Column
+		isHidden
+		formatString: 0
+		lineageTag: 8480d0a9-afaa-425f-8f22-b8e1ff6e052c
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Column]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 00_Measure_Table = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = 572042d0458e47ba953b0a2f9505c738
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
+

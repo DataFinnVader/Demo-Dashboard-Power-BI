@@ -1,0 +1,37 @@
+table 'Revenue Target'
+	lineageTag: 80ff170f-d508-4212-a514-dbcf142fa1fd
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: a5449c4b-a0df-49ab-8629-d16efd362c5c
+		summarizeBy: none
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Revenue Target'
+		dataType: decimal
+		formatString: #,0.00\ "€";-#,0.00\ "€";#,0.00\ "€"
+		lineageTag: b04c0889-313b-4d17-b899-38e83bc40f8e
+		summarizeBy: none
+		sourceColumn: Revenue Target
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	partition 'Revenue Target' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WMjIwMlbSUTIxAAGlWB2wiAlIxBRZxBQkYo4sYgYUMYXqigUA", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Year = _t, #"Revenue Targer" = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Year", Int64.Type}, {"Revenue Targer", Currency.Type}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"Revenue Targer", "Revenue Target"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

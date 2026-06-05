@@ -1,0 +1,113 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 164.8919782269507
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 707.13507700000014,
+            "y": 952.95323625000015
+          },
+          "nodeIndex": "Dim_Kunden",
+          "nodeLineageTag": "2432e83b-1998-45ea-80ec-76777c0f5e55",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 694.102632,
+            "y": 186.81815925000004
+          },
+          "nodeIndex": "Dim_Mitarbeiter",
+          "nodeLineageTag": "9731eab8-e6e2-42fe-b0b3-fb54c2875899",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 209.04419800000005,
+            "y": 510.81567625000008
+          },
+          "nodeIndex": "Dim_Produkte",
+          "nodeLineageTag": "2c983c71-2c7e-4173-ad06-a105658c30af",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 650.44512500000008,
+            "y": 544.90655525000011
+          },
+          "nodeIndex": "Fakten_Umsatz",
+          "nodeLineageTag": "41a90a3f-2dc1-4af6-b998-8672e2063d09",
+          "size": {
+            "height": 334.01065847851146,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 1015.8556530000001,
+            "y": 556.71552725000015
+          },
+          "nodeIndex": "Calender_Auto",
+          "nodeLineageTag": "415c18c6-5f8b-4b14-b804-4d472df05f90",
+          "size": {
+            "height": 285.96932198157253,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 1289.4207324078159,
+            "y": 336.012915579507
+          },
+          "nodeIndex": "00_Measure_Table",
+          "nodeLineageTag": "1e65cdb7-c351-4af0-8690-8b28cd43a25d",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 1013.6677470864197,
+            "y": 943.92389170617889
+          },
+          "nodeIndex": "Revenue Target",
+          "nodeLineageTag": "80ff170f-d508-4212-a514-dbcf142fa1fd",
+          "size": {
+            "height": 292.89197822695064,
+            "width": 234
+          },
+          "zIndex": 7
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 70.955543900968848,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Musterfirma"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "3a8785d6-2b61-4bbb-a14a-24b273a5dbd5"
+  }
+}

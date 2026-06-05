@@ -1,0 +1,26 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["Fakten_Umsatz","Dim_Produkte","Dim_Kunden","Dim_Mitarbeiter","Revenue Target"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table Fakten_Umsatz
+ref table Dim_Produkte
+ref table Dim_Kunden
+ref table Dim_Mitarbeiter
+ref table Calender_Auto
+ref table 00_Measure_Table
+ref table 'Revenue Target'
+ref table DateTableTemplate_d87716a9-15f5-4b9c-9161-459aed55202d
+ref table LocalDateTable_d3ea2288-bdc6-419a-8037-b4eaa40c6634
+
+ref cultureInfo en-US
+
